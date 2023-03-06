@@ -137,9 +137,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-*.egg-info/
-.installed.cfg
-*.egg
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -164,14 +162,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-.coverage
-.coverage.*
-.cache
-.pytest_cache/
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
+
 
 # Translations
 *.mo
