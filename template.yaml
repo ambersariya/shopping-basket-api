@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  shopping-basket-api
+
+  Sample SAM Template for shopping-basket-api
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+    Tracing: Active
+  Api:
+    TracingEnabled: True
+
+
+Resources:
+  HealthcheckEndpoint:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src.healthcheck_endpoint.ping.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        Healthcheck:
+          Type: Api
+          Properties:
+            Path: /ping
+            Method: get
+
+  ProductGetById:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src.product_endpoint.handlers.get_product_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        ProductGetByIdApiEvent:
+          Type: Api
+          Properties:
+            Path: /products/{product_id}
+            Method: get
+
+  AddProduct:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src.product_endpoint.handlers.add_product_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        ProductGetByIdApiEvent:
+          Type: Api
+          Properties:
+            Path: /products/{product_id}
+            Method: post
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  ShoppingBasketApi:
+    Description: "API Gateway endpoint URL for Prod stage for Healthcheck function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/"
+  HealthcheckEndpoint:
+    Description: "Healthcheck Lambda Function ARN"
+    Value: !GetAtt HealthcheckEndpoint.Arn
+  HealthcheckEndpointIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HealthcheckEndpointRole.Arn

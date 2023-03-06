@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "shopping-basket-api"
+version = "0.1.0"
+description = ""
+authors = ["Danish Javed <1080238+ambersariya@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{ include = "shopping_basket_api" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.2"
+requests = "^2.28.2"
+boto3 = "^1.26.84"
+pytest-mock = "^3.10.0"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
